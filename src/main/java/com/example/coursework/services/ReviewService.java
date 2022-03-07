@@ -17,6 +17,9 @@ public class ReviewService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ImageService imageService;
+
     public List<Review> findAll () {
         return reviewRepository.findAll();
     }
@@ -28,7 +31,8 @@ public class ReviewService {
     public String saveReview (Review review, String username) {
         if (review != null) {
             review.setUser(userService.loadUserByUsername(username));
-            reviewRepository.save(review);
+            review.setId(reviewRepository.save(review).getId());
+            imageService.saveImages(review);
             return "Review added successfully";
         }
         else return "Something went wrong. Your review has not been saved.";
