@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -33,6 +34,12 @@ public class Review {
 
     @OneToMany(mappedBy="review")
     private Set<Image> images;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "review_tags",
+            joinColumns = @JoinColumn(name = "review_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     public Review() {
     }
