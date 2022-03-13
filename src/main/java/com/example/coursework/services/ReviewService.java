@@ -1,8 +1,6 @@
 package com.example.coursework.services;
 
-import com.example.coursework.models.Review;
-import com.example.coursework.models.Tag;
-import com.example.coursework.models.User;
+import com.example.coursework.models.*;
 import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +27,32 @@ public class ReviewService {
     }
 
     public List<Review> findAllByTag (String tagName) {
-        //tagService.findTag(tagName);
         return reviewRepository.findAllByTagsContains(tagService.findTag(tagName));
     }
 
     public Review findById (Long id) {
         return reviewRepository.findById(id).get();
+    }
+
+    public boolean checkReviewAuthor (Review review, String username) {
+        Review reviewFromDb = reviewRepository.findById(review.getId()).get();
+        if (reviewFromDb.getUser().getUsername().equals(username)
+                ||  userService.loadUserByUsername(username).getRoles().contains(new Role(ERole.ROLE_ADMIN))) {
+            review.setUser(reviewFromDb.getUser());
+            return true;
+        }
+        return false;
+    }
+
+    public String editReview (Review review, String username) {
+        if (checkReviewAuthor(review, username))
+        {
+            review.setTags(tagService.saveTags(review.getTags()));
+            imageService.editImages(review);
+            reviewRepository.save(review);
+            return "Review edited successfully";
+        }
+        return "You don't have permission to edit or the review was deleted";
     }
 
     public String saveReview (Review review, String username) {

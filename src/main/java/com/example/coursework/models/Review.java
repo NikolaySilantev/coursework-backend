@@ -28,6 +28,8 @@ public class Review {
     @Type(type = "text")
     private String full_text;
 
+    private float authorScore;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -40,6 +42,9 @@ public class Review {
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private Set<Tag> tags;
+
+    @OneToMany(mappedBy="review")
+    private Set<Like> likes;
 
     public Review() {
     }

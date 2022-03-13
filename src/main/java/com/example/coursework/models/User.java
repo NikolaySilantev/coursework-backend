@@ -51,6 +51,9 @@ public class User {
     @JsonIgnore
     private Set<Review> reviews;
 
+    @OneToMany(mappedBy="user")
+    private Set<Like> likes;
+
     public User() {
     }
     public User(String username, String email, String password) {

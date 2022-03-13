@@ -32,4 +32,6 @@ public interface ReviewMapper {
     Tag tagNameToTag (String tag);
     default String tagToTagName(Tag tag) {return tag.getName();}
     Set<String> tagsToTagNames(Set<Tag> tags);
+    @Mapping(target = "images", source = "imageUrls")
+    Review reviewEditDtoToReview (ReviewEditDto reviewEditDto);
 }

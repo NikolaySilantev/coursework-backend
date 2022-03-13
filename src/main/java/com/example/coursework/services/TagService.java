@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 @Service
 public class TagService {
     @Autowired
-    TagRepository tagRepository;
+    private TagRepository tagRepository;
 
     public Tag findTag (String tagName) {
         return tagRepository.findByName(tagName).get();

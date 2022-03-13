@@ -13,8 +13,8 @@ import javax.persistence.*;
         uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
         })
-@SQLInsert(sql = "INSERT IGNORE INTO tags(name) " +
-        "VALUES (?)")
+//@SQLInsert(sql = "INSERT IGNORE INTO tags(name) " +
+//        "VALUES (?)")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
