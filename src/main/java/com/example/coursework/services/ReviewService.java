@@ -1,5 +1,6 @@
 package com.example.coursework.services;
 
+import com.example.coursework.dao.ReviewSearchDao;
 import com.example.coursework.models.*;
 import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import java.util.Optional;
 public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewSearchDao reviewSearchDao;
 
     @Autowired
     private UserService userService;
@@ -64,5 +68,9 @@ public class ReviewService {
             return "Review added successfully";
         }
         else return "Something went wrong. Your review has not been saved.";
+    }
+
+    public List<Review> searchReview (String text) {
+        return reviewSearchDao.searchReviews(text);
     }
 }

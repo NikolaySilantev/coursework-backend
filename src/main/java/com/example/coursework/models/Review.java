@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,15 +19,19 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Indexed
 @Table(name = "reviews")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
+    @Field
     private String title;
+    @Field
     private String subject;
     @Type(type = "text")
+    @Field
     private String full_text;
 
     private float authorScore;

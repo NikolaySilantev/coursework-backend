@@ -58,4 +58,10 @@ public class ReviewController {
         return reviewService.findAllByTag(tagName).stream()
                 .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
     }
+
+    @GetMapping("/search/{text}")
+    public List<HomeReviewDto> searchReview (@PathVariable("text") String text) {
+        return reviewService.searchReview(text).stream()
+                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
+    }
 }
