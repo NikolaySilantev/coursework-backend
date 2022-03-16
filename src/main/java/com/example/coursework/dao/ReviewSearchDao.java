@@ -22,8 +22,9 @@ public class ReviewSearchDao {
 
     public List<Review> searchReviews (String text) {
         Query keywordQuery  = getQueryBuilder()
-                .keyword()
-                .onFields("title", "full_text")
+                .keyword().fuzzy()
+                .withEditDistanceUpTo(2)
+                .onFields("title", "full_text", "tags")
                 .matching(text)
                 .createQuery();
         return getJpaQuery(keywordQuery).getResultList();

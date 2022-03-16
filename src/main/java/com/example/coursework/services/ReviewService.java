@@ -70,6 +70,17 @@ public class ReviewService {
         else return "Something went wrong. Your review has not been saved.";
     }
 
+    public String deleteReview (Long id, String username) {
+        Review review = reviewRepository.findById(id).get();
+        if (checkReviewAuthor(review, username))
+        {
+            reviewRepository.deleteById(id);
+            return "Review deleted";
+        }
+        return "You don't have permission to delete this";
+
+    }
+
     public List<Review> searchReview (String text) {
         return reviewSearchDao.searchReviews(text);
     }

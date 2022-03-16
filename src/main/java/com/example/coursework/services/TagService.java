@@ -4,6 +4,8 @@ import com.example.coursework.models.Tag;
 import com.example.coursework.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,6 +14,10 @@ import java.util.stream.Stream;
 public class TagService {
     @Autowired
     private TagRepository tagRepository;
+
+    public List<Tag> findAll() {
+        return tagRepository.findAll();
+    }
 
     public Tag findTag (String tagName) {
         return tagRepository.findByName(tagName).get();

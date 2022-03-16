@@ -53,6 +53,12 @@ public class ReviewController {
         return reviewMapper.reviewToReviewDetailsDto(reviewService.findById(id));
     }
 
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public String deleteReview(@PathVariable("id") long id, Principal principal) {
+        return reviewService.deleteReview(id, principal.getName());
+    }
+
     @GetMapping("/tag/{tagName}")
     public List<HomeReviewDto> getReview(@PathVariable("tagName") String tagName) {
         return reviewService.findAllByTag(tagName).stream()

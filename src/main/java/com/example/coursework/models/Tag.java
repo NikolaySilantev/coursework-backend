@@ -2,25 +2,25 @@ package com.example.coursework.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.SQLInsert;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@Indexed
 @Table(name = "tags",
         uniqueConstraints = {
         @UniqueConstraint(columnNames = "name")
         })
-//@SQLInsert(sql = "INSERT IGNORE INTO tags(name) " +
-//        "VALUES (?)")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Field
     private String name;
-    //private Long count;
 
     public Tag() {
     }

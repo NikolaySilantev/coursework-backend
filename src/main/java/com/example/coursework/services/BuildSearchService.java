@@ -2,7 +2,6 @@ package com.example.coursework.services;
 
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.Session;
 import org.hibernate.search.jpa.Search;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
