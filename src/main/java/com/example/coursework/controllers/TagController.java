@@ -1,6 +1,5 @@
 package com.example.coursework.controllers;
 
-import com.example.coursework.dto.HomeReviewDto;
 import com.example.coursework.models.Tag;
 import com.example.coursework.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping("/tag")
 public class TagController {
@@ -23,5 +22,10 @@ public class TagController {
     @GetMapping("/all")
     public List<Tag> getAllTags() {
         return tagService.findAll();
+    }
+
+    @GetMapping("/top")
+    public Map<String, Long> getTopTags() {
+        return tagService.findTopTags();
     }
 }

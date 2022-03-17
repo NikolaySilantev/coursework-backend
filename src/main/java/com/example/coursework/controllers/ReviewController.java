@@ -12,11 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
@@ -32,12 +33,12 @@ public class ReviewController {
                 .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> addReview(@RequestBody ReviewDto reviewDto, Principal principal) {
+    public ResponseEntity<?> addReview(@RequestBody ReviewDto reviewDto, @PathVariable String username, Principal principal) {
         Review review = reviewMapper.reviewDtoToReview(reviewDto);
         return ResponseEntity.ok(new MessageResponse(
-                reviewService.saveReview(review, principal.getName())));
+                reviewService.addReview(review, username, principal.getName())));
     }
 
     @PostMapping("/edit")
@@ -66,7 +67,7 @@ public class ReviewController {
     }
 
     @GetMapping("/search/{text}")
-    public List<HomeReviewDto> searchReview (@PathVariable("text") String text) {
+    public List<HomeReviewDto> searchReview(@PathVariable("text") String text) {
         return reviewService.searchReview(text).stream()
                 .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
     }

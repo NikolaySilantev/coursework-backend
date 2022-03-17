@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Indexed
 @Table(name = "tags",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = "name")
+                @UniqueConstraint(columnNames = "name")
         })
 public class Tag {
     @Id

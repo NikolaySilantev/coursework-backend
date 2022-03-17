@@ -20,8 +20,8 @@ public class ReviewSearchDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Review> searchReviews (String text) {
-        Query keywordQuery  = getQueryBuilder()
+    public List<Review> searchReviews(String text) {
+        Query keywordQuery = getQueryBuilder()
                 .keyword().fuzzy()
                 .withEditDistanceUpTo(2)
                 .onFields("title", "full_text", "tags")

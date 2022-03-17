@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 @Component
 @Transactional
-public class BuildSearchService implements ApplicationListener<ApplicationReadyEvent>{
+public class BuildSearchService implements ApplicationListener<ApplicationReadyEvent> {
     @PersistenceContext
     EntityManager entityManager;
 

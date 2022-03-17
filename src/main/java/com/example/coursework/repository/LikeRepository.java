@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    Optional<Like> findLikeByUserAndReview (User user, Review review);
+    Optional<Like> findLikeByUserAndReview(User user, Review review);
 }

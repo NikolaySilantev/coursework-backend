@@ -1,13 +1,12 @@
 package com.example.coursework.services;
 
 import com.example.coursework.dao.ReviewSearchDao;
-import com.example.coursework.models.*;
+import com.example.coursework.models.Review;
 import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReviewService {
@@ -26,31 +25,30 @@ public class ReviewService {
     @Autowired
     private TagService tagService;
 
-    public List<Review> findAll () {
+    public List<Review> findAll() {
         return reviewRepository.findAll();
     }
 
-    public List<Review> findAllByTag (String tagName) {
+    public List<Review> findAllByTag(String tagName) {
         return reviewRepository.findAllByTagsContains(tagService.findTag(tagName));
     }
 
-    public Review findById (Long id) {
+    public Review findById(Long id) {
         return reviewRepository.findById(id).get();
     }
 
-    public boolean checkReviewAuthor (Review review, String username) {
+    public boolean checkReviewAuthor(Review review, String username) {
         Review reviewFromDb = reviewRepository.findById(review.getId()).get();
-        if (reviewFromDb.getUser().getUsername().equals(username)
-                ||  userService.loadUserByUsername(username).getRoles().contains(new Role(ERole.ROLE_ADMIN))) {
+        boolean isAuthor = reviewFromDb.getUser().getUsername().equals(username);
+        if (isAuthor || userService.isAdmin(username)) {
             review.setUser(reviewFromDb.getUser());
             return true;
         }
         return false;
     }
 
-    public String editReview (Review review, String username) {
-        if (checkReviewAuthor(review, username))
-        {
+    public String editReview(Review review, String username) {
+        if (checkReviewAuthor(review, username)) {
             review.setTags(tagService.saveTags(review.getTags()));
             imageService.editImages(review);
             reviewRepository.save(review);
@@ -59,21 +57,19 @@ public class ReviewService {
         return "You don't have permission to edit or the review was deleted";
     }
 
-    public String saveReview (Review review, String username) {
-        if (review != null) {
+    public String addReview(Review review, String author, String sender) {
+        if (review != null || author == sender || userService.isAdmin(sender)) {
             review.setTags(tagService.saveTags(review.getTags()));
-            review.setUser(userService.loadUserByUsername(username));
+            review.setUser(userService.loadUserByUsername(author));
             review.setId(reviewRepository.save(review).getId());
             imageService.saveImages(review);
             return "Review added successfully";
-        }
-        else return "Something went wrong. Your review has not been saved.";
+        } else return "Something went wrong. Your review has not been saved.";
     }
 
-    public String deleteReview (Long id, String username) {
+    public String deleteReview(Long id, String username) {
         Review review = reviewRepository.findById(id).get();
-        if (checkReviewAuthor(review, username))
-        {
+        if (checkReviewAuthor(review, username)) {
             reviewRepository.deleteById(id);
             return "Review deleted";
         }
@@ -81,7 +77,7 @@ public class ReviewService {
 
     }
 
-    public List<Review> searchReview (String text) {
+    public List<Review> searchReview(String text) {
         return reviewSearchDao.searchReviews(text);
     }
 }

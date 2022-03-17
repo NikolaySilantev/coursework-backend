@@ -11,14 +11,14 @@ public class ImageService {
     @Autowired
     private ImageRepository imageRepository;
 
-    public void editImages (Review review) {
+    public void editImages(Review review) {
         imageRepository.deleteAllByReviewId(review.getId());
         saveImages(review);
     }
 
-    public void saveImages (Review review) {
+    public void saveImages(Review review) {
         for (Image img : review.getImages()
-             ) {
+        ) {
             img.setReview(review);
         }
         imageRepository.saveAll(review.getImages());

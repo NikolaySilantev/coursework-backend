@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RatingMapper {
-    @Mapping(target="user.id", source="userId")
-    @Mapping(target="review.id", source="reviewId")
+    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "review.id", source = "reviewId")
     Like likeDtoToLike(LikeDto likeDto);
 }

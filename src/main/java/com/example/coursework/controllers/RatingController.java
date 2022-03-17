@@ -1,9 +1,7 @@
 package com.example.coursework.controllers;
 
 import com.example.coursework.dto.LikeDto;
-import com.example.coursework.dto.ReviewDto;
 import com.example.coursework.mappers.RatingMapper;
-import com.example.coursework.models.Review;
 import com.example.coursework.payload.response.MessageResponse;
 import com.example.coursework.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping("/rating")
 public class RatingController {
