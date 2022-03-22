@@ -1,6 +1,5 @@
 package com.example.coursework.controllers;
 
-import com.example.coursework.dto.ReviewDto;
 import com.example.coursework.dto.UserControlDto;
 import com.example.coursework.dto.UserProfileDto;
 import com.example.coursework.mappers.UserMapper;

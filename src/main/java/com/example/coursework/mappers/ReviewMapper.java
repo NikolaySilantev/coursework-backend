@@ -1,6 +1,7 @@
 package com.example.coursework.mappers;
 
 import com.example.coursework.dto.*;
+import com.example.coursework.models.Category;
 import com.example.coursework.models.Image;
 import com.example.coursework.models.Review;
 import com.example.coursework.models.Tag;
@@ -12,7 +13,14 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     @Mapping(target = "images", source = "imageUrls")
-    Review reviewDtoToReview(ReviewDto reviewDto);
+    Review reviewAddDtoToReview(ReviewAddDto reviewAddDto);
+
+    @Mapping(target = "name", source = "category")
+    Category categoryNameToCategory(String category);
+
+    default String categoryToCategoryName(Category category) {
+        return category.getName();
+    }
 
     @Mapping(target = "url", source = "imageUrl")
     Image imageUrlToImage(String imageUrl);
@@ -33,9 +41,6 @@ public interface ReviewMapper {
     @Mapping(target = "authorImgUrl", source = "review.user.imageUrl")
     @Mapping(target = "imageUrls", source = "images")
     ReviewDetailsDto reviewToReviewDetailsDto(Review review);
-
-    @Mapping(target = "imageUrls", source = "images")
-    UserReviewDto reviewToUserReviewDto(Review review);
 
     Set<Tag> tagNamesToTags(Set<String> tags);
 

@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Indexed
 @Table(name = "tags",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name")
@@ -19,7 +18,6 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Field
     private String name;
 
     public Tag() {

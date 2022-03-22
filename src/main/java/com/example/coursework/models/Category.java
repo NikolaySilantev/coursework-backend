@@ -12,26 +12,24 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Indexed
 @Table(name = "categories",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "name")
         })
-public class Group {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Field
     private String name;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Set<Review> reviews;
 
-    public Group() {
+    public Category() {
     }
 
-    public Group(String name) {
+    public Category(String name) {
         this.name = name;
     }
 }

@@ -1,8 +1,8 @@
 package com.example.coursework.controllers;
 
 import com.example.coursework.dto.HomeReviewDto;
+import com.example.coursework.dto.ReviewAddDto;
 import com.example.coursework.dto.ReviewDetailsDto;
-import com.example.coursework.dto.ReviewDto;
 import com.example.coursework.dto.ReviewEditDto;
 import com.example.coursework.mappers.ReviewMapper;
 import com.example.coursework.models.Review;
@@ -35,8 +35,8 @@ public class ReviewController {
 
     @PostMapping("/add/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> addReview(@RequestBody ReviewDto reviewDto, @PathVariable String username, Principal principal) {
-        Review review = reviewMapper.reviewDtoToReview(reviewDto);
+    public ResponseEntity<?> addReview(@RequestBody ReviewAddDto reviewAddDto, @PathVariable String username, Principal principal) {
+        Review review = reviewMapper.reviewAddDtoToReview(reviewAddDto);
         return ResponseEntity.ok(new MessageResponse(
                 reviewService.addReview(review, username, principal.getName())));
     }

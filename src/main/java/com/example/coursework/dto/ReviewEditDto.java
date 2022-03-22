@@ -8,15 +8,15 @@ import java.util.Set;
 public class ReviewEditDto {
     private Long id;
     private String title;
-    private String subject;
+    private String category;
     private String full_text;
     private Set<String> imageUrls;
     private Set<String> tags;
 
-    public ReviewEditDto(Long id, String title, String subject, String full_text, Set<String> imageUrls, Set<String> tags) {
+    public ReviewEditDto(Long id, String title, String category, String full_text, Set<String> imageUrls, Set<String> tags) {
         this.id = id;
         this.title = title;
-        this.subject = subject;
+        this.category = category;
         this.full_text = full_text;
         this.imageUrls = imageUrls;
         this.tags = tags;

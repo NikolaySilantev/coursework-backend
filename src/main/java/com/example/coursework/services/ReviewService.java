@@ -6,6 +6,7 @@ import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -20,10 +21,16 @@ public class ReviewService {
     private UserService userService;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private ImageService imageService;
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private RatingService ratingService;
 
     public List<Review> findAll() {
         return reviewRepository.findAll();
@@ -50,6 +57,7 @@ public class ReviewService {
     public String editReview(Review review, String username) {
         if (checkReviewAuthor(review, username)) {
             review.setTags(tagService.saveTags(review.getTags()));
+            review.setCategory(categoryService.findCategory(review.getCategory().getName()));
             imageService.editImages(review);
             reviewRepository.save(review);
             return "Review edited successfully";
@@ -60,6 +68,8 @@ public class ReviewService {
     public String addReview(Review review, String author, String sender) {
         if (review != null || author == sender || userService.isAdmin(sender)) {
             review.setTags(tagService.saveTags(review.getTags()));
+            review.setCategory(categoryService.findCategory(review.getCategory().getName()));
+            review.setReleaseDate(new Timestamp(System.currentTimeMillis()));
             review.setUser(userService.loadUserByUsername(author));
             review.setId(reviewRepository.save(review).getId());
             imageService.saveImages(review);
@@ -79,5 +89,11 @@ public class ReviewService {
 
     public List<Review> searchReview(String text) {
         return reviewSearchDao.searchReviews(text);
+    }
+
+    public void updateAvgScore(Long reviewId) {
+        Review review = reviewRepository.getById(reviewId);
+        review.setUserScore(ratingService.getAvgScore(reviewId));
+        reviewRepository.save(review);
     }
 }

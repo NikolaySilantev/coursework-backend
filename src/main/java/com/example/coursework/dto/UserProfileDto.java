@@ -6,13 +6,13 @@ import java.util.Set;
 
 @Data
 public class UserProfileDto {
+    private String username;
     private String email;
     private String imageUrl;
-    private Set<UserReviewDto> reviews;
 
-    public UserProfileDto(String email, String imageUrl, Set<UserReviewDto> reviews) {
+    public UserProfileDto(String username, String email, String imageUrl) {
+        this.username = username;
         this.email = email;
         this.imageUrl = imageUrl;
-        this.reviews = reviews;
     }
 }

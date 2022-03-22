@@ -1,24 +1,24 @@
 package com.example.coursework.dto;
 
-import com.example.coursework.models.Group;
-import com.example.coursework.models.Image;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
-public class ReviewDto {
+public class ReviewAddDto {
     private String title;
-    private String group;
+    private String category;
     private String full_text;
     private Set<String> imageUrls;
     private Set<String> tags;
+    private Double authorScore;
 
-    public ReviewDto(String title, String group, String full_text, Set<String> imageUrls, Set<String> tags) {
+    public ReviewAddDto(String title, String category, String full_text, Set<String> imageUrls, Set<String> tags, Double authorScore) {
         this.title = title;
-        this.group = group;
+        this.category = category;
         this.full_text = full_text;
         this.imageUrls = imageUrls;
         this.tags = tags;
+        this.authorScore = authorScore;
     }
 }

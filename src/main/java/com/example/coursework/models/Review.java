@@ -9,6 +9,7 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Getter
@@ -23,13 +24,19 @@ public class Review {
     @NotBlank
     @Field
     private String title;
-    @Field
-    private String subject;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Type(type = "text")
     @Field
     private String full_text;
 
-    private float authorScore;
+    private Double authorScore;
+    private Double userScore;
+
+    private Timestamp releaseDate = null;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,18 +49,19 @@ public class Review {
     @JoinTable(	name = "review_tags",
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    @IndexedEmbedded
     private Set<Tag> tags;
 
     @OneToMany(mappedBy="review", cascade = { CascadeType.REMOVE })
     private Set<Like> likes;
 
+    @OneToMany(mappedBy="review", cascade = { CascadeType.REMOVE })
+    private Set<Score> scores;
+
     public Review() {
     }
 
-    public Review(String title, String subject, String full_text) {
+    public Review(String title, String full_text) {
         this.title = title;
-        this.subject = subject;
         this.full_text = full_text;
     }
 }

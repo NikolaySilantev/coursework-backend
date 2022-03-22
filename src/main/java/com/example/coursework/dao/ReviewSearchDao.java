@@ -24,7 +24,7 @@ public class ReviewSearchDao {
         Query keywordQuery = getQueryBuilder()
                 .keyword().fuzzy()
                 .withEditDistanceUpTo(2)
-                .onFields("title", "full_text", "tags")
+                .onFields("title", "full_text")
                 .matching(text)
                 .createQuery();
         return getJpaQuery(keywordQuery).getResultList();
