@@ -48,8 +48,11 @@ public class User {
     @JsonIgnore
     private Set<Review> reviews;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Like> likes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Score> scores;
 
     public User() {
     }
