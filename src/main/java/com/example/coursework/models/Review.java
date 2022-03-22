@@ -49,6 +49,7 @@ public class Review {
     @JoinTable(	name = "review_tags",
             joinColumns = @JoinColumn(name = "review_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @IndexedEmbedded
     private Set<Tag> tags;
 
     @OneToMany(mappedBy="review", cascade = { CascadeType.REMOVE })
