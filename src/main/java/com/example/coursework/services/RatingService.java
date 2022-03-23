@@ -36,12 +36,22 @@ public class RatingService {
         return "Completed";
     }
 
+    public Integer getLikeCount(Long reviewId) {
+        return likeRepository.countAllByReviewId(reviewId);
+    }
 
+    public Integer getUserLikeCount(Long userId, Long reviewId) {
+        return likeRepository.countAllByReviewId(reviewId);
+    }
 
     public Double getAvgScore(Long reviewId) {
         return scoreRepository.avgScoreByReviewId(reviewId);
     }
     public Score getUserScore(Long reviewId, Long userId) {
         return scoreRepository.findScoreByUserIdAndReviewId(reviewId, userId).orElse(new Score(0f));
+    }
+
+    public Boolean getUserLike(Long reviewId, Long userId) {
+        return likeRepository.findLikeByUserIdAndReviewId(reviewId, userId).isPresent();
     }
 }

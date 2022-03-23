@@ -33,11 +33,17 @@ public class RatingController {
         return ratingService.getUserScore(reviewId, userId).getScore();
     }
 
+    @GetMapping("/user-like")
+    public Boolean getUserLike(@RequestParam Long reviewId, @RequestParam Long userId) {
+        return ratingService.getUserLike(reviewId, userId);
+    }
+
     @PostMapping("/like")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> likeReview(@RequestBody LikeDto likeDto) {
-        return ResponseEntity.ok(new MessageResponse(
-                ratingService.likeReview(ratingMapper.likeDtoToLike(likeDto))));
+        String message = ratingService.likeReview(ratingMapper.likeDtoToLike(likeDto));
+        reviewService.updateLikeCount(likeDto.getReviewId());
+        return ResponseEntity.ok(new MessageResponse(message));
     }
 
     @PostMapping("/rate")

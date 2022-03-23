@@ -34,7 +34,8 @@ public class Review {
     private String full_text;
 
     private Double authorScore;
-    private Double userScore;
+    private Double userScore = 0d;
+    private Integer likeCount = 0;
 
     private Timestamp releaseDate = null;
 

@@ -31,6 +31,11 @@ public class UserService {
         return user;
     }
 
+    public void updateUserRating(User user, Integer difference) {
+        user.setRating(user.getRating() + difference);
+        userRepository.save(user);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }

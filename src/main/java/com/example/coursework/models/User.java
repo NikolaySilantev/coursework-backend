@@ -54,6 +54,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Score> scores;
 
+    private Integer rating = 0;
+
     public User() {
     }
 
@@ -62,6 +64,4 @@ public class User {
         this.email = email;
         this.password = password;
     }
-
-
 }

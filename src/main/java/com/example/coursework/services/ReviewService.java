@@ -6,8 +6,10 @@ import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ReviewService {
@@ -44,8 +46,7 @@ public class ReviewService {
         return reviewRepository.findById(id).get();
     }
 
-    public boolean checkReviewAuthor(Review review, String username) {
-        Review reviewFromDb = reviewRepository.findById(review.getId()).get();
+    public boolean checkReviewAuthor(Review review, Review reviewFromDb, String username) {
         boolean isAuthor = reviewFromDb.getUser().getUsername().equals(username);
         if (isAuthor || userService.isAdmin(username)) {
             review.setUser(reviewFromDb.getUser());
@@ -54,11 +55,13 @@ public class ReviewService {
         return false;
     }
 
-    public String editReview(Review review, String username) {
-        if (checkReviewAuthor(review, username)) {
+
+    public String editReview(Review review, String username) throws Exception {
+        Review reviewFromDb = reviewRepository.findById(review.getId()).get();
+        if (checkReviewAuthor(review, reviewFromDb, username)) {
             review.setTags(tagService.saveTags(review.getTags()));
             review.setCategory(categoryService.findCategory(review.getCategory().getName()));
-            imageService.editImages(review);
+            imageService.editImages(review, reviewFromDb);
             reviewRepository.save(review);
             return "Review edited successfully";
         }
@@ -77,9 +80,19 @@ public class ReviewService {
         } else return "Something went wrong. Your review has not been saved.";
     }
 
-    public String deleteReview(Long id, String username) {
-        Review review = reviewRepository.findById(id).get();
-        if (checkReviewAuthor(review, username)) {
+    public boolean checkReviewAuthor(Review reviewFromDb, String username) {
+        boolean isAuthor = reviewFromDb.getUser().getUsername().equals(username);
+        if (isAuthor || userService.isAdmin(username)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public String deleteReview(Long id, String username) throws Exception {
+        Review reviewFromDb = reviewRepository.findById(id).get();
+        if (checkReviewAuthor(reviewFromDb, username)) {
+            imageService.deleteImagesFromCloudinary(reviewFromDb.getImages());
             reviewRepository.deleteById(id);
             return "Review deleted";
         }
@@ -91,9 +104,22 @@ public class ReviewService {
         return reviewSearchDao.searchReviews(text);
     }
 
+    public Set<Review> getUserReviews(String username) {
+        return userService.loadUserByUsername(username).getReviews();
+    }
+
     public void updateAvgScore(Long reviewId) {
         Review review = reviewRepository.getById(reviewId);
         review.setUserScore(ratingService.getAvgScore(reviewId));
+        reviewRepository.save(review);
+    }
+
+    public void updateLikeCount (Long reviewId) {
+        Review review = reviewRepository.getById(reviewId);
+        Integer oldRating = review.getLikeCount();
+        Integer newRating = ratingService.getLikeCount(reviewId);
+        userService.updateUserRating(review.getUser(), newRating - oldRating);
+        review.setLikeCount(newRating);
         reviewRepository.save(review);
     }
 }

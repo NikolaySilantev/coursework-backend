@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -43,7 +45,7 @@ public class ReviewController {
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> editReview(@RequestBody ReviewEditDto reviewEditDto, Principal principal) {
+    public ResponseEntity<?> editReview(@RequestBody ReviewEditDto reviewEditDto, Principal principal) throws Exception {
         Review review = reviewMapper.reviewEditDtoToReview(reviewEditDto);
         return ResponseEntity.ok(new MessageResponse(
                 reviewService.editReview(review, principal.getName())));
@@ -56,7 +58,7 @@ public class ReviewController {
 
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String deleteReview(@PathVariable("id") long id, Principal principal) {
+    public String deleteReview(@PathVariable("id") long id, Principal principal) throws Exception {
         return reviewService.deleteReview(id, principal.getName());
     }
 
@@ -70,5 +72,11 @@ public class ReviewController {
     public List<HomeReviewDto> searchReview(@PathVariable("text") String text) {
         return reviewService.searchReview(text).stream()
                 .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
+    }
+
+    @GetMapping("/user/{user}")
+    public Set<HomeReviewDto> getUserReviews(@PathVariable("user") String username) {
+        return reviewService.getUserReviews(username).stream()
+                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toSet());
     }
 }
