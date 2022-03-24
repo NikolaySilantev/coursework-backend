@@ -62,6 +62,7 @@ public class ReviewService {
             review.setTags(tagService.saveTags(review.getTags()));
             review.setCategory(categoryService.findCategory(review.getCategory().getName()));
             imageService.editImages(review, reviewFromDb);
+            review.setReleaseDate(new Timestamp(System.currentTimeMillis()));
             reviewRepository.save(review);
             return "Review edited successfully";
         }
