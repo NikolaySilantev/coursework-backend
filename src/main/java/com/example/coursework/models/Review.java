@@ -37,7 +37,7 @@ public class Review {
     private Double userScore = 0d;
     private Integer likeCount = 0;
 
-    private Timestamp releaseDate = null;
+    private Timestamp releaseDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
