@@ -31,7 +31,7 @@ public class CommentController {
 
     @MessageMapping("/comment")
     public void addComment(@RequestBody CommentDto commentDto) {
-        commentService.saveComment(commentMapper.commentDtoToComment(commentDto));
+        commentDto=commentMapper.commentToCommentDto(commentService.saveComment(commentMapper.commentDtoToComment(commentDto)));
         messagingTemplate.convertAndSend("/topic/comment/" + commentDto.getReviewId(), commentDto);
     }
 }

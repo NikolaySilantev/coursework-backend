@@ -32,24 +32,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Autowired
     private JwtUtils jwtUtils;
 
-//    @Autowired
-//    private JwtDecoder jwtDecoder;
-
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-//    private void AuthTokenFilter (String jwt) {
-//        //String jwt = parseJwt(token);
-//        if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-//            String username = jwtUtils.getUserNameFromJwtToken(jwt);
-//            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//                    userDetails, null, userDetails.getAuthorities());
-//            //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//            authentication.setAuthenticated(true);
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        }
-//    }
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new ChannelInterceptor() {
@@ -59,20 +44,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                         MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     List<String> authorization = accessor.getNativeHeader("Authorization");
-                    //logger.debug("X-Authorization: {}", authorization);
                     String accessToken = authorization.get(0).split(" ")[1];
-                    System.out.println(accessToken);
                     if (accessToken != null && jwtUtils.validateJwtToken(accessToken)) {
                         String username = jwtUtils.getUserNameFromJwtToken(accessToken);
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-//                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//                                userDetails, null, userDetails.getAuthorities());
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
-                        //Authentication authentication = authenticationManager.authenticate(authenticationA);
-                        //authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        //authentication.setAuthenticated(true);
-                        System.out.println("Hello hello");
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                         accessor.setUser(authentication);
                     }
