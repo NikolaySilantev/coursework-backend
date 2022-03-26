@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Data
 public class ReviewDetailsDto {
+    private Long id;
     private String title;
     private String category;
     private String full_text;
@@ -19,7 +20,8 @@ public class ReviewDetailsDto {
     private String authorImgUrl;
     private Set<String> tags;
 
-    public ReviewDetailsDto(String title, String category, String full_text, Set<String> imageUrls, Double authorScore, Double userScore, Integer likeCount, Timestamp releaseDate, String authorName, String authorImgUrl, Set<String> tags) {
+    public ReviewDetailsDto(Long id, String title, String category, String full_text, Set<String> imageUrls, Double authorScore, Double userScore, Integer likeCount, Timestamp releaseDate, String authorName, String authorImgUrl, Set<String> tags) {
+        this.id = id;
         this.title = title;
         this.category = category;
         this.full_text = full_text;

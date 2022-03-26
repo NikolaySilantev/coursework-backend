@@ -56,6 +56,9 @@ public class User {
 
     private Integer rating = 0;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Comment> comments;
+
     public User() {
     }
 

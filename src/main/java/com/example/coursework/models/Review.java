@@ -59,6 +59,9 @@ public class Review {
     @OneToMany(mappedBy="review", cascade = { CascadeType.REMOVE })
     private Set<Score> scores;
 
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    private Set<Comment> comments;
+
     public Review() {
     }
 

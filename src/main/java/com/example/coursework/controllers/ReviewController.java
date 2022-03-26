@@ -1,6 +1,5 @@
 package com.example.coursework.controllers;
 
-import com.example.coursework.dto.HomeReviewDto;
 import com.example.coursework.dto.ReviewAddDto;
 import com.example.coursework.dto.ReviewDetailsDto;
 import com.example.coursework.dto.ReviewEditDto;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +28,9 @@ public class ReviewController {
     private ReviewMapper reviewMapper;
 
     @GetMapping("/all")
-    public List<HomeReviewDto> getAllReviews() {
+    public List<ReviewDetailsDto> getAllReviews() {
         return reviewService.findAll().stream()
-                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
+                .map(review -> (reviewMapper.reviewToReviewDetailsDto(review))).collect(Collectors.toList());
     }
 
     @PostMapping("/add/{username}")
@@ -63,20 +61,20 @@ public class ReviewController {
     }
 
     @GetMapping("/tag/{tagName}")
-    public List<HomeReviewDto> getReview(@PathVariable("tagName") String tagName) {
+    public List<ReviewDetailsDto> getReview(@PathVariable("tagName") String tagName) {
         return reviewService.findAllByTag(tagName).stream()
-                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
+                .map(review -> (reviewMapper.reviewToReviewDetailsDto(review))).collect(Collectors.toList());
     }
 
     @GetMapping("/search/{text}")
-    public List<HomeReviewDto> searchReview(@PathVariable("text") String text) {
+    public List<ReviewDetailsDto> searchReview(@PathVariable("text") String text) {
         return reviewService.searchReview(text).stream()
-                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toList());
+                .map(review -> (reviewMapper.reviewToReviewDetailsDto(review))).collect(Collectors.toList());
     }
 
     @GetMapping("/user/{user}")
-    public Set<HomeReviewDto> getUserReviews(@PathVariable("user") String username) {
+    public Set<ReviewDetailsDto> getUserReviews(@PathVariable("user") String username) {
         return reviewService.getUserReviews(username).stream()
-                .map(review -> (reviewMapper.reviewToHomeReviewDto(review))).collect(Collectors.toSet());
+                .map(review -> (reviewMapper.reviewToReviewDetailsDto(review))).collect(Collectors.toSet());
     }
 }
