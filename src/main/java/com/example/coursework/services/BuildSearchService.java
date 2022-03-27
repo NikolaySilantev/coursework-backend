@@ -23,7 +23,7 @@ public class BuildSearchService implements ApplicationListener<ApplicationReadyE
             FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager.unwrap(SessionImplementor.class));
             fullTextEntityManager.createIndexer().startAndWait();
         } catch (InterruptedException e) {
-            System.out.println("An error occurred trying to build the search index: " + e.toString());
+            System.out.println("An error occurred trying to build the search index: " + e);
         }
     }
 }

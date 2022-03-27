@@ -8,6 +8,7 @@ public class UserControlDto {
     private String username;
     private String email;
     private Boolean unblocked;
+    private Boolean isAdmin;
 
     public UserControlDto(Long id, String username, String email, Boolean unblocked) {
         this.id = id;

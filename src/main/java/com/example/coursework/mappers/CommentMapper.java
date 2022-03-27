@@ -12,11 +12,11 @@ public interface CommentMapper {
     @Mapping(target = "authorName", source = "comment.user.username")
     @Mapping(target = "authorImgUrl", source = "comment.user.imageUrl")
     @Mapping(target = "reviewId", source = "review.id")
-    CommentDto commentToCommentDto (Comment comment);
+    CommentDto commentToCommentDto(Comment comment);
 
     List<CommentDto> commentsToCommentDtos(List<Comment> comments);
 
     @Mapping(target = "user.username", source = "authorName")
     @Mapping(target = "review.id", source = "reviewId")
-    Comment commentDtoToComment (CommentDto commentDto);
+    Comment commentDtoToComment(CommentDto commentDto);
 }

@@ -19,7 +19,7 @@ public class ImageService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public String convertUrlToPublicId (String url) {
+    public String convertUrlToPublicId(String url) {
         String[] splitUrl = url.split("/");
         String publicId = splitUrl[splitUrl.length - 1].split("\\.")[0];
         return publicId;
@@ -27,7 +27,7 @@ public class ImageService {
 
     public List<String> getPublicIds(Set<Image> images) {
         List<String> result;
-        result=images.stream().map(image -> convertUrlToPublicId(image.getUrl())).collect(Collectors.toList());
+        result = images.stream().map(image -> convertUrlToPublicId(image.getUrl())).collect(Collectors.toList());
         return result;
     }
 

@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Getter
@@ -26,16 +25,11 @@ public class Comment {
     @JoinColumn(name = "review_id")
     private Review review;
     @Type(type = "text")
-    @Size(max = 500)
     private String commentText;
 
     Timestamp releaseDate;
 
     public Comment() {
-    }
-
-    public Comment(String commentText) {
-        this.commentText = commentText;
     }
 }
 

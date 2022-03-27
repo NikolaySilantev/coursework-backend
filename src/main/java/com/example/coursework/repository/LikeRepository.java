@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface LikeRepository extends JpaRepository<Like, Long> {
     Optional<Like> findLikeByUserAndReview(User user, Review review);
 
-    Integer countAllByReviewId (Long reviewId);
+    Integer countAllByReviewId(Long reviewId);
 
-    Optional<Like> findLikeByUserIdAndReviewId(Long userId, Long reviewId);
+    Optional<Like> findLikeByReviewIdAndUserId(Long reviewId, Long userId);
 }

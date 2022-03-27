@@ -3,7 +3,7 @@ package com.example.coursework.controllers;
 import com.example.coursework.dto.UserControlDto;
 import com.example.coursework.dto.UserProfileDto;
 import com.example.coursework.mappers.UserMapper;
-import com.example.coursework.payload.response.MessageResponse;
+import com.example.coursework.security.payload.response.MessageResponse;
 import com.example.coursework.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,11 @@ public class UserController {
     @GetMapping("/all")
     public List<UserControlDto> getAllUsers() {
         return userService.findAll().stream()
-                .map(user -> (userMapper.UserToUserControlDto(user))).collect(Collectors.toList());
+                .map(user -> {
+                    UserControlDto userControlDto = userMapper.UserToUserControlDto(user);
+                    userControlDto.setIsAdmin(userService.isAdmin(user));
+                    return userControlDto;
+                }).collect(Collectors.toList());
     }
 
     @PreAuthorize("hasRole('ADMIN')")

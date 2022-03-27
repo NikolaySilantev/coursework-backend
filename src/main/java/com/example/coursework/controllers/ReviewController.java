@@ -5,13 +5,14 @@ import com.example.coursework.dto.ReviewDetailsDto;
 import com.example.coursework.dto.ReviewEditDto;
 import com.example.coursework.mappers.ReviewMapper;
 import com.example.coursework.models.Review;
-import com.example.coursework.payload.response.MessageResponse;
+import com.example.coursework.security.payload.response.MessageResponse;
 import com.example.coursework.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class ReviewController {
 
     @PostMapping("/add/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> addReview(@RequestBody ReviewAddDto reviewAddDto, @PathVariable String username, Principal principal) {
+    public ResponseEntity<?> addReview(@Valid @RequestBody ReviewAddDto reviewAddDto, @PathVariable String username, Principal principal) {
         Review review = reviewMapper.reviewAddDtoToReview(reviewAddDto);
         return ResponseEntity.ok(new MessageResponse(
                 reviewService.addReview(review, username, principal.getName())));
@@ -43,7 +44,7 @@ public class ReviewController {
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> editReview(@RequestBody ReviewEditDto reviewEditDto, Principal principal) throws Exception {
+    public ResponseEntity<?> editReview(@Valid @RequestBody ReviewEditDto reviewEditDto, Principal principal) throws Exception {
         Review review = reviewMapper.reviewEditDtoToReview(reviewEditDto);
         return ResponseEntity.ok(new MessageResponse(
                 reviewService.editReview(review, principal.getName())));

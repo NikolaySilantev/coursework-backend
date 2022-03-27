@@ -17,14 +17,14 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
-    public Comment saveComment (Comment comment) {
+    public Comment saveComment(Comment comment) {
         comment.setReleaseDate(new Timestamp(System.currentTimeMillis()));
         comment.setUser(userService.loadUserByUsername(comment.getUser().getUsername()));
         commentRepository.save(comment);
         return comment;
     }
 
-    public List<Comment> findCommentsByReviewId (Long reviewId) {
+    public List<Comment> findCommentsByReviewId(Long reviewId) {
         return commentRepository.findAllByReviewId(reviewId);
     }
 }

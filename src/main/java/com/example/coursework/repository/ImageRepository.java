@@ -1,7 +1,6 @@
 package com.example.coursework.repository;
 
 import com.example.coursework.models.Image;
-import com.example.coursework.models.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

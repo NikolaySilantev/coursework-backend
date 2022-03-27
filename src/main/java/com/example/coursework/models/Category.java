@@ -3,8 +3,6 @@ package com.example.coursework.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -27,9 +25,5 @@ public class Category {
     private Set<Review> reviews;
 
     public Category() {
-    }
-
-    public Category(String name) {
-        this.name = name;
     }
 }

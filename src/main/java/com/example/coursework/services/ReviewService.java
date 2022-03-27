@@ -6,7 +6,6 @@ import com.example.coursework.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +60,8 @@ public class ReviewService {
         if (checkReviewAuthor(review, reviewFromDb, username)) {
             review.setTags(tagService.saveTags(review.getTags()));
             review.setCategory(categoryService.findCategory(review.getCategory().getName()));
+            review.setLikeCount(reviewFromDb.getLikeCount());
+            review.setUserScore(reviewFromDb.getUserScore());
             imageService.editImages(review, reviewFromDb);
             review.setReleaseDate(new Timestamp(System.currentTimeMillis()));
             reviewRepository.save(review);
@@ -70,7 +71,7 @@ public class ReviewService {
     }
 
     public String addReview(Review review, String author, String sender) {
-        if (review != null || author == sender || userService.isAdmin(sender)) {
+        if (review != null && (author.equals(sender) || userService.isAdmin(sender))) {
             review.setTags(tagService.saveTags(review.getTags()));
             review.setCategory(categoryService.findCategory(review.getCategory().getName()));
             review.setReleaseDate(new Timestamp(System.currentTimeMillis()));
@@ -115,7 +116,7 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-    public void updateLikeCount (Long reviewId) {
+    public void updateLikeCount(Long reviewId) {
         Review review = reviewRepository.getById(reviewId);
         Integer oldRating = review.getLikeCount();
         Integer newRating = ratingService.getLikeCount(reviewId);

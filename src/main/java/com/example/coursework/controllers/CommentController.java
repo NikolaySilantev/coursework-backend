@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin
@@ -30,8 +31,8 @@ public class CommentController {
     }
 
     @MessageMapping("/comment")
-    public void addComment(@RequestBody CommentDto commentDto) {
-        commentDto=commentMapper.commentToCommentDto(commentService.saveComment(commentMapper.commentDtoToComment(commentDto)));
+    public void addComment(@Valid @RequestBody CommentDto commentDto) {
+        commentDto = commentMapper.commentToCommentDto(commentService.saveComment(commentMapper.commentDtoToComment(commentDto)));
         messagingTemplate.convertAndSend("/topic/comment/" + commentDto.getReviewId(), commentDto);
     }
 }

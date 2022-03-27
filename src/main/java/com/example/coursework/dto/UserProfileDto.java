@@ -2,8 +2,6 @@ package com.example.coursework.dto;
 
 import lombok.Data;
 
-import java.util.Set;
-
 @Data
 public class UserProfileDto {
     private String username;

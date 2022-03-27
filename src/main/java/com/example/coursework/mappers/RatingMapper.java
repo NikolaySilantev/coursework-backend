@@ -15,5 +15,5 @@ public interface RatingMapper {
 
     @Mapping(target = "user.id", source = "userId")
     @Mapping(target = "review.id", source = "reviewId")
-    Score scoreDtoToScore (ScoreDto scoreDto);
+    Score scoreDtoToScore(ScoreDto scoreDto);
 }
