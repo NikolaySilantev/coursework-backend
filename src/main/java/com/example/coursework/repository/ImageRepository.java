@@ -12,6 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ImageRepository extends JpaRepository<Image, Long> {
     @Transactional
     @Modifying
-    @Query(value = "delete from images i where i.review_id=?1", nativeQuery = true)
+    @Query(value = "delete from images where review_id=?1", nativeQuery = true)
     void deleteAllByReviewId(Long reviewId);
 }
