@@ -26,9 +26,9 @@ INSERT INTO tags(id, name) VALUES(15, 'Strategy');
 INSERT INTO tags(id, name) VALUES(16, 'Fantasy');
 
 
-insert into users(id, email, image_url, password, rating, unblocked, username) values (1,'user1@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 0, true, 'user1');
-insert into users(id, email, image_url, password, rating, unblocked, username) values (2,'user2@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 0, true, 'user2');
-insert into users(id, email, image_url, password, rating, unblocked, username) values (3,'user3@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 0, true, 'user3');
+insert into users(id, email, image_url, password, rating, unblocked, username) values (1,'user1@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 3, true, 'user1');
+insert into users(id, email, image_url, password, rating, unblocked, username) values (2,'user2@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 2, true, 'user2');
+insert into users(id, email, image_url, password, rating, unblocked, username) values (3,'user3@mail.ru', null, '$2a$10$DXR.7FM938z0OsIB3BlunuseLDBhn7wqt5chyH4xEwjM/JebCOf1.', 2, true, 'user3');
 
 insert into user_roles VALUES (1,3);
 insert into user_roles VALUES (1,1);
